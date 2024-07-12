@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Binary Text Background</title>
+    <style>
+        /* CSS styles for the binary text and main content */
+        body {
+            background: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .binary-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            font-family: Courier, monospace;
+            font-size: 20px;
+            color: #14452f;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            background-color:  #1d2e28;
+            width: 250px;
+            
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+
+        .inputtext {
+            padding: 10px;
+            font-size: 16px;
+            width: calc(100% - 20px); /* Adjusted to accommodate padding */
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #14452f;
+            color:  black;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            padding:0px;
+            font-size: 30px;
+          color: #14452f;
+            background-color: transparent;
+             text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+           
+        }
+    </style>
+</head>
+<body>
+    <!-- Binary text effect container -->
+    <div class="binary-background" id="binaryBackground"></div>
+
+    <!-- Login form container -->
+    <div class="container">
+        <h2>Login</h2>
+
+        <form action="login.php" method="POST">
+            <input type="password" name="txtpassword" class="inputtext" placeholder="Password" autofocus required>
+            <button type="submit" class="button">Login</button><button class="button" onclick="window.history.back();">Back</button>
+            <p class="message" id="alert_message"></p>
+        </form>
+    </div>
+
+    <!-- JavaScript for dynamic binary text -->
+    <script>
+        //     document.getElementById('loginForm').addEventListener('submit', function(event) {
+        //     event.preventDefault(); // Prevent form submission
+
+        //     // Retrieve username and password
+         
+        //     var password = this.elements['password'].value;
+
+        //     // Simulate login validation (replace with actual logic)
+        //     if (password === '1234') {
+        //         // Successful login
+        //           var username = 'admin'; // Set the username
+        //         localStorage.setItem('Username', username); 
+        //          // Store username in local storage
+        //         window.location.href = 'Today_Sale_List.php'; // Redirect to success page
+        //     } else {
+        //         // Invalid credentials
+        //         document.getElementById('errorMessage').textContent = 'Invalid username or password';
+        //     }
+        // });
+        // Function to generate random binary text
+        function generateBinaryText() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const binaryRows = Math.ceil(height / 16); // Adjust based on font size and window size
+
+            let binaryText = '';
+            for (let i = 0; i < binaryRows; i++) {
+                for (let j = 0; j < width / 8; j++) { // Adjusted from width / 10 to width / 8
+                    binaryText += Math.random() < 0.5 ? '0' : '1';
+                }
+                binaryText += '<br>';
+            }
+
+            // Update the content of the binary background
+            document.getElementById('binaryBackground').innerHTML = binaryText;
+        }
+
+        // Call the function initially
+        generateBinaryText();
+
+        // Update binary text periodically (every 500 milliseconds in this example)
+        setInterval(generateBinaryText, 500); // Adjust the interval time as desired
+    </script>
+</body>
+</html>
