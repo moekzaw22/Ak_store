@@ -129,7 +129,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                     if (empty($array['Parent_Product_Name'])) {
                         echo '<td>Not connected to latli</td>';
                     } else {
-                        echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
+                   echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '&QCTN=' . $qctn . '&LTP=' . $ltp . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
                     }
                     
                     echo '<td><a href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';

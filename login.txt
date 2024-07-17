@@ -1,0 +1,40 @@
+    <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+$alert_message = '';
+$valid_password="1234";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $password = $_POST["txtpassword"];
+
+    // Validate credentials
+    if ($password === $valid_password) {
+        $valid_username = "admin";
+        $_SESSION['Username'] = $valid_username;
+        $alert_message = 'Login Success.';
+        header("Location: Today_Sale_List.php");
+        exit();
+    } else {
+        $alert_message = 'Invalid credentials. Please try again.';
+    }
+}
+?>
+<!DOCTYPE html>
+<html>a
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <script>
+        <?php if (!empty($alert_message)) : ?>
+            alert('<?php echo $alert_message; ?>');
+        <?php endif; ?>
+    </script>
+</head>
+<body>
+    <form action="login.php" method="POST">
+        <input type="password" name="txtpassword" autofocus required/>
+        <input type="submit" name="btnsubmit">
+    </form>
+</body>
+</html>

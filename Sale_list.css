@@ -1,0 +1,23 @@
+table{
+	width:100%;
+}
+table tr td {
+		padding:5px 10px 5px 10px;
+ 		
+ 		border:1px solid grey;
+ 	}
+ 	
+.search-container {
+    margin-left: 10px;
+}
+
+.search-container input[type="date"], .search-container button {
+    padding: 5px;
+    font-size: 19px;
+}
+
+.search-container button {
+    margin-left: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

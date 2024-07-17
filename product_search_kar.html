@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <a href="Product_List_latkar.php">Return To list</a>
+    <h2>Product Search</h2>
+    
+    <input type="text" id="search_term" placeholder="Search by product name or ID...">
+    
+    <div id="search_results">
+        <table id="search_table">
+            <thead>
+                <tr>
+                    <th>Product Name (CTN code)</th>
+                    <th>Quantity</th>
+                    <th>Buy Price</th>
+                    <th>Sell Price</th>
+                    <th>Quantity Per Package</th>
+                    <th>Link To Product</th>
+                    <th colspan="3">Commands</th>
+                </tr>
+            </thead>
+            <tbody id="search_body">
+                <!-- Search results will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('search_term');
+        const searchResults = document.getElementById('search_body');
+
+        searchInput.addEventListener('input', function() {
+            const searchValue = this.value.trim();
+
+            // Clear previous search results
+            searchResults.innerHTML = '';
+
+            // Make AJAX request to fetch search results
+            if (searchValue.length > 0) {
+                const xhr = new XMLHttpRequest();
+                const url = `product_search.php?search_term=${encodeURIComponent(searchValue)}`;
+                
+                xhr.open('GET', url, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        const results = JSON.parse(xhr.responseText);
+                        
+                        // Update the table with search results
+                        results.forEach(result => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${result.Product_Name} (${result.latkar_ID})</td>
+                                <td>${result.Quantity}</td>
+                                <td>${result.Buy_Price}</td>
+                                <td>${result.Sell_Price}</td>
+                                <td>${result.Quantity_Per_Package}</td>
+                                <td>${result.Parent_Product_Name ? `<a href="ExtractingPackage.php?PID=${result.Parent_Product_ID}">${result.Parent_Product_Name}</a>` : 'Not connected to latli'}</td>
+                                <td><a href="ExtractingPackage.php?PID=${result.Parent_Product_ID}">Add to လက်လီ</a></td>
+                                <td><a href="Product_Latkar_Restock.php?PID=${result.latkar_ID}">Edit</a></td>
+                            `;
+                            searchResults.appendChild(row);
+                        });
+                    } else {
+                        console.error('Error fetching data:', xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    console.error('Request failed.');
+                };
+                xhr.send();
+            }
+        });
+    </script>
+</body>
+</html>
