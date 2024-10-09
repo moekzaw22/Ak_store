@@ -73,7 +73,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
 
     <!-- Product Search Section -->
    
-    <input type="text" id="search_term" placeholder="Search by product name or ID...">
+    <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="product name or ID...">
 
     <!-- Product Table -->
     <table id="product_table">
@@ -110,7 +110,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                 }
             } else {
                 // Display all products if no search results
-                $select_latkar = "SELECT pl.Link_To_CTN, pl.Product_ID AS latkar_ID, p.Product_ID AS Parent_Product_ID, p.Product_Name AS Parent_Product_Name, pl.Product_Name, pl.Quantity, pl.Buy_Price, pl.Sell_Price 
+                $select_latkar = "SELECT pl.Link_To_CTN, pl.Product_ID AS latkar_ID, p.Product_ID AS Parent_Product_ID, p.Product_Name AS Parent_Product_Name, pl.Product_Name, pl.Quantity,p.Quantity_Per_Package, pl.Buy_Price, pl.Sell_Price 
                                   FROM product pl 
                                   LEFT JOIN product_latkar p ON p.Product_ID = pl.Link_To_CTN";
                 $select_query = mysqli_query($connection, $select_latkar);
@@ -129,10 +129,10 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                     if (empty($array['Parent_Product_Name'])) {
                         echo '<td>Not connected to latli</td>';
                     } else {
-                   echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '&QCTN=' . $qctn . '&LTP=' . $ltp . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
+                   echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '&QCTN=' . $array['Quantity_Per_Package'] . '&LTP=' . $array['Link_To_CTN'] . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
                     }
                     
-                    echo '<td><a href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
+                    echo '<td><a href="Product_Latli_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
                     echo '</tr>';
                 }
             }

@@ -64,7 +64,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
     </style>
 </head>
 <body>
-    <h1>Product List <span style="color: blue">(Latkar)</span></h1>
+    <h1>Product List <span style="color: blue">(လက်ကား)</span></h1>
 
     <!-- Search Form -->
     <form action="Product_List_latkar.php" method="GET">
@@ -74,7 +74,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
     <!-- Product Search Section -->
    
     <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="Search by product name...">
-
+    <a href="Product_History_All.php">Extracting History</a>
     <!-- Product Table -->
     <table id="product_table">
         <thead>
@@ -101,10 +101,12 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                     echo '<td>' . htmlspecialchars($array['Quantity_Per_Package'], ENT_QUOTES, 'UTF-8') . '</td>';
                     if (empty($array['Parent_Product_Name'])) {
                         echo '<td>Not connected to latli</td>';
+                        echo '<td>Not connected to latli</td>';
                     } else {
                         echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
+                         echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '&QCTN=' . $array['Quantity_Per_Package'] . '&LTP=' . $array['Link_To_CTN'] . '">Add to လက်လီ</a></td>';
                     }
-                    echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">Add to လက်လီ</a></td>';
+                  
                     echo '<td><a href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
                     echo '</tr>';
                 }
@@ -128,10 +130,14 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                     echo '<td>' . htmlspecialchars($array['Quantity_Per_Package'], ENT_QUOTES, 'UTF-8') . '</td>';
                     if (empty($array['Parent_Product_Name'])) {
                         echo '<td>Not connected to latli</td>';
+                       echo '<td>Not connected to latli</td>';
                     } else {
                         echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
+                         echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '&QCTN=' . $array['Quantity_Per_Package'] . '&LTP=' . $array['Link_To_CTN'] . '">Add to လက်လီ</a></td>';
                     }
-                    echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">Add to လက်လီ</a></td>';
+                       
+                  echo '<td><a href="Product_History.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">View History</a></td>';
+
                     echo '<td><a href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
                     echo '</tr>';
                 }

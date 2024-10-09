@@ -27,7 +27,8 @@ if (isset($_POST['btnsubmit'])) {
     $barcode = $_POST['txtbarcode'];
     $buyprice = $_POST['txtbuyprice'];
     $sellprice = $_POST['txtsellprice'];
-    if (emtpy($restock)) {
+    $restock = $_POST['txtrestock'];
+    if (empty($restock)) {
         $restock = 0;
     }else{
         $restock = $_POST['txtrestock'];

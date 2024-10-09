@@ -20,7 +20,7 @@ if(isset($_GET['PID']))
                 $quantity=$product_array['Quantity'];
                 $product_id=$product_array['Product_ID'];
                 $buyquantity=$product_array['Buy_Quantity'];
-                $update="UPDATE product_latkar SET Quantity = Quantity - $buyquantity WHERE Product_ID='$product_id'";
+                $update="UPDATE product SET Quantity = Quantity - $buyquantity WHERE Product_ID='$product_id'";
             
 
             $update_query=mysqli_query($connection,$update);

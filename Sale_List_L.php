@@ -2,12 +2,14 @@
 // Include database configuration file
 include('Config.php');
 
+// Start session to check if the user is logged in
 if (empty($_SESSION['Username'])) {
     include('user_navbar.php');
 } else {
     include('Navbar.php');
 }
 include('Sale_Nav.php');
+
 // Initialize variables
 $search_date = "";
 $search_error = "";
@@ -15,51 +17,51 @@ $sales_data = array();
 $total_amount = 0;
 
 // Check if form is submitted with date input
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['search_date'])) {
     $search_date = $_POST['search_date'];
+} else {
+    // If no date is searched, set today's date as default
+    $search_date = date('Y-m-d');
+}
 
-    // Validate date input (optional, depending on your needs)
-    // Example: You can add validation logic here to ensure the date format is correct
+// SQL query to select sales data for the specified date
+$select_sale = "SELECT s.Sale_ID, 
+                       pl.Product_Name AS Product_Name_Latkar, 
+                       p.Product_Name AS Product_Name_Product, 
+                       s.Total_Amount, 
+                       pl.Barcode AS latkar_Barcode,
+                       p.Barcode AS latli_Barcode,
+                       s.Date, 
+                       s.Time, 
+                       s.Buy_Quantity 
+                FROM sale s
+                LEFT JOIN product_latkar pl ON s.Product_ID = pl.Barcode
+                LEFT JOIN product p ON s.Product_ID = p.Barcode
+                WHERE s.Status = 1 AND s.Date = ?
+                ORDER BY s.Date ASC";
 
-    // SQL query to select sales data for the specified date
-    $select_sale = "SELECT s.Sale_ID, 
-                           pl.Product_Name AS Product_Name_Latkar, 
-                           p.Product_Name AS Product_Name_Product, 
-                           s.Total_Amount, 
-                           pl.Barcode AS latkar_Barcode,
-                           p.Barcode AS latli_Barcode,
-                           s.Date, 
-                           s.Time, 
-                           s.Buy_Quantity 
-                    FROM sale s
-                    LEFT JOIN product_latkar pl ON s.Product_ID = pl.Barcode
-                    LEFT JOIN product p ON s.Product_ID = p.Barcode
-                    WHERE s.Status = 1 AND s.Date = ?
-                    ORDER BY s.Date ASC";
+// Prepare and execute the query with parameter binding
+if ($stmt = $connection->prepare($select_sale)) {
+    $stmt->bind_param("s", $search_date);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Prepare and execute the query with parameter binding
-    if ($stmt = $connection->prepare($select_sale)) {
-        $stmt->bind_param("s", $search_date);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Fetch and store result in array
-        while ($row = $result->fetch_assoc()) {
-            $sales_data[] = $row;
-            $total_amount += $row['Total_Amount']; // Calculate total amount
-        }
-
-        // Close statement
-        $stmt->close();
-    } else {
-        // Error handling for prepare statement
-        die('Prepare failed: ' . htmlspecialchars($connection->error));
+    // Fetch and store result in array
+    while ($row = $result->fetch_assoc()) {
+        $sales_data[] = $row;
+        $total_amount += $row['Total_Amount']; // Calculate total amount
     }
 
-    // Check if any results found
-    if (empty($sales_data)) {
-        $search_error = "No sales found for " . htmlspecialchars($search_date, ENT_QUOTES, 'UTF-8') . ".";
-    }
+    // Close statement
+    $stmt->close();
+} else {
+    // Error handling for prepare statement
+    die('Prepare failed: ' . htmlspecialchars($connection->error));
+}
+
+// Check if any results found
+if (empty($sales_data)) {
+    $search_error = "No sales found for " . htmlspecialchars($search_date, ENT_QUOTES, 'UTF-8') . ".";
 }
 
 // Close database connection
@@ -87,7 +89,6 @@ mysqli_close($connection);
             <input type="date" id="search_date" name="search_date" style="margin-left:10px;padding:5px;font-size: 18px;" value="<?php echo htmlspecialchars($search_date, ENT_QUOTES, 'UTF-8'); ?>">
             <button type="submit" name="search_button">Search</button>
         </form>
-    </div>
     </div>
 
     <!-- Display Sales Data -->

@@ -18,7 +18,7 @@ function is_active($page) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Navigation Example</title>
+    <title>AK Store</title>
     <style>
         /* Your CSS styles */
     </style>
