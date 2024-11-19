@@ -27,7 +27,13 @@ if (isset($_POST['btnsubmit'])) {
     $barcode = $_POST['txtbarcode'];
     $buyprice = $_POST['txtbuyprice'];
     $sellprice = $_POST['txtsellprice'];
-    $restock = $_POST['txtrestock'];
+
+    if (empty($restock)) {
+        $restock = 0;
+    }else{
+        $restock = $_POST['txtrestock'];
+    }
+  
 echo $update = "UPDATE product_latkar 
            SET Product_Name = '$productname', 
                Quantity = Quantity + $restock, 

@@ -90,7 +90,8 @@ if (isset($_POST['btnsubmit'])) {
 
         if ($select_query) {
             $count = mysqli_num_rows($select_query);
-            $select_price = "SELECT SUM(Total_Amount) AS totalsum FROM Sale WHERE Status = '0'";
+            $select_price = "SELECT SUM(s.Total_Amount) AS totalsum FROM Sale s, product p WHERE s.Product_ID =p.Barcode AND 
+            s.Status = '0'";
             $result = mysqli_query($connection, $select_price);
             $row = mysqli_fetch_assoc($result);
             $sum = $row['totalsum'];
