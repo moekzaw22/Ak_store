@@ -50,7 +50,7 @@ if (isset($_POST['btnsubmit'])) {
  	</div><br>
  	<div class="Entry-div">
  		<label>Link To CTN</label>
- 		<input type="number" name="numquantityCTN" required>
+ 		<input type="number" name="numquantityCTN" placeholder="လက်ကားနဲ့ချိတ်ဆက်ရန်" required>
  	</div><br>
  	<div class="Entry-div">
  		<label>Buy Price</label>

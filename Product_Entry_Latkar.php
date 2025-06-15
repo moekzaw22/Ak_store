@@ -51,7 +51,7 @@ if (isset($_POST['btnsubmit'])) {
  	</div><br>
  	<div class="Entry-div">
  		<label>Quantity(Per CTN)</label>
- 		<input type="number" name="numquantityCTN" required>
+ 		<input type="number" name="numquantityCTN" placeholder="တစ်ဖာတွင်ပါသောအရေအတွက်" required>
  	</div><br>
  	<div class="Entry-div">
  		<label>Buy Price</label>
