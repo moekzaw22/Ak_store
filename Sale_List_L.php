@@ -64,8 +64,6 @@ if (empty($sales_data)) {
     $search_error = "No sales found for " . htmlspecialchars($search_date, ENT_QUOTES, 'UTF-8') . ".";
 }
 
-// Close database connection
-mysqli_close($connection);
 ?>
 
 <!DOCTYPE html>
@@ -95,6 +93,64 @@ mysqli_close($connection);
     <div class="table-container">
         <?php if (!empty($sales_data)): ?>
             <h2>Total Amount for <?php echo htmlspecialchars($search_date, ENT_QUOTES, 'UTF-8'); ?>: <?php echo number_format($total_amount, 2); ?> Ks</h2>
+<?php
+// Query for လက်ကား (wholesale)
+$select_latkar = "SELECT s.Product_ID, pl.Product_Name, SUM(s.Buy_Quantity) AS total_quantity 
+                  FROM sale s
+                  JOIN product_latkar pl ON s.Product_ID = pl.Barcode
+                  WHERE s.Date = '$search_date'
+                  GROUP BY s.Product_ID";
+$select_query1 = mysqli_query($connection, $select_latkar);
+
+// Query for လက်လီ (retail)
+$select_latli = "SELECT s.Product_ID, p.Product_Name, SUM(s.Buy_Quantity) AS total_quantity 
+                 FROM sale s
+                 JOIN product p ON s.Product_ID = p.Barcode
+                 WHERE s.Date = '$search_date'
+                 GROUP BY s.Product_ID";
+$select_query2 = mysqli_query($connection, $select_latli);
+
+// Create associative arrays for easy merging by Product_ID
+$latkar_data = [];
+while ($row = mysqli_fetch_assoc($select_query1)) {
+    $latkar_data[$row['Product_ID']] = [
+        'Product_Name' => $row['Product_Name'],
+        'Latkar_Qty' => $row['total_quantity'],
+        'Latli_Qty' => 0
+    ];
+}
+
+while ($row = mysqli_fetch_assoc($select_query2)) {
+    if (isset($latkar_data[$row['Product_ID']])) {
+        $latkar_data[$row['Product_ID']]['Latli_Qty'] = $row['total_quantity'];
+    } else {
+        $latkar_data[$row['Product_ID']] = [
+            'Product_Name' => $row['Product_Name'],
+            'Latkar_Qty' => 0,
+            'Latli_Qty' => $row['total_quantity']
+        ];
+    }
+}
+
+// Output table
+echo "<table border='1'>";
+echo "<tr><th colspan='3'>နေ့စွဲ: $search_date</th></tr>";
+echo "<tr><th>Product Name</th><th>လက်ကား Qty</th><th>လက်လီ Qty</th></tr>";
+
+foreach ($latkar_data as $data) {
+    echo "<tr>";
+    echo "<td>{$data['Product_Name']}</td>";
+    echo "<td>{$data['Latkar_Qty']}</td>";
+    echo "<td>{$data['Latli_Qty']}</td>";
+    echo "</tr>";
+}
+echo "</table>";
+mysqli_close($connection);
+
+?>
+
+
+
             <table border='1' id='allsale' cellpadding='5' cellspacing='0'>
                 <thead>
                     <tr>
@@ -102,7 +158,7 @@ mysqli_close($connection);
                         <th>Product Name (လက်လီ)</th>
                         <th>Buy Quantity</th>
                         <th>Total Amount</th>
-                        <th>Date</th>
+                
                         <th>Time</th>
                     </tr>
                 </thead>
@@ -112,8 +168,8 @@ mysqli_close($connection);
                             <td><?php echo htmlspecialchars($row['Product_Name_Latkar'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($row['Product_Name_Product'], ENT_QUOTES, 'UTF-8'); ?></td>
                             <td><?php echo htmlspecialchars($row['Buy_Quantity'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($row['Total_Amount'], ENT_QUOTES, 'UTF-8'); ?></td>
-                            <td><?php echo htmlspecialchars($row['Date'], ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><?php echo htmlspecialchars(number_format($row['Total_Amount']), ENT_QUOTES, 'UTF-8'); ?> Ks</td>
+                           
                             <td><?php echo htmlspecialchars($row['Time'], ENT_QUOTES, 'UTF-8'); ?></td>
                         </tr>
                     <?php endforeach; ?>

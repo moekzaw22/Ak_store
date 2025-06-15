@@ -123,7 +123,7 @@ if (isset($_POST['btnsubmit'])) {
             </table>
             <div>
                 <a class="link" accesskey="C" href="Sale_Finalize_P.php?PID=<?php echo $purchaseid ?>">Confirm</a>
-                <a class="link" href="Sale_Cancel_All.php">Cancel All</a>
+                <a class="link" accesskey = "A" href="Sale_Cancel_All.php">Cancel All</a>
             </div>
             <div>Total: <span id="total_sum" style="color: orange; font-weight: bolder; font-size: 18px;"><?php echo number_format($sum) ?></span> Ks</div>
         <?php
