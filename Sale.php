@@ -67,6 +67,8 @@ if (isset($_POST['btnsubmit'])) {
         <div class="Sale" id="categorySale">
             <nav class="navigation1"><a href="Sale_LatKar.php">Sale Latkar</a></nav>
             <nav class="navigation1 active"><a href="sale.php">Sale Latli</a></nav>
+               <nav class="navigation1"><a href="Restock_casher.php">Restock</a></nav>
+        </div>
         </div>
    </div>
     <form action="Sale.php" method="POST">
