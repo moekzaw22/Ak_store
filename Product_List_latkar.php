@@ -73,7 +73,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
 
     <!-- Product Search Section -->
    
-    <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="Search by product name...">
+    <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="Search by product name..." autofocus>
     <a href="Product_History_All.php">Extracting History</a>
     <!-- Product Table -->
     <table id="product_table">

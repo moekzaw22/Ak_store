@@ -73,7 +73,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
 
     <!-- Product Search Section -->
    
-    <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="product name or ID...">
+    <input type="text" id="search_term" style="padding:5px;font-size:18px" placeholder="product name or ID..." autofocus/>
 
     <!-- Product Table -->
     <table id="product_table">
@@ -105,7 +105,7 @@ if (isset($_GET['search_by']) && isset($_GET['txtsearch'])) {
                         echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($array['Parent_Product_Name'], ENT_QUOTES, 'UTF-8') . '</a></td>';
                     }
                     echo '<td><a href="ExtractingPackage.php?PID=' . htmlspecialchars($array['Parent_Product_ID'], ENT_QUOTES, 'UTF-8') . '">Add to လက်လီ</a></td>';
-                    echo '<td><a href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
+                    echo '<td><a accesskey="E" href="Product_Latkar_Restock.php?PID=' . htmlspecialchars($array['latkar_ID'], ENT_QUOTES, 'UTF-8') . '">Edit</a></td>';
                     echo '</tr>';
                 }
             } else {

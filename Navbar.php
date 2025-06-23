@@ -26,8 +26,8 @@ function is_active($page) {
 <body>
     <div class="Navbar">
         <div class="Entry" id="categoryEntry">
-            <nav class="navigation1 <?php echo is_active('Product_Entry_Latkar.php'); ?>"><a href="Product_Entry_Latkar.php">Latkar Entry</a></nav>
-            <nav class="navigation1 <?php echo is_active('Product_Entry.php'); ?>"><a href="Product_Entry.php">Latli Entry</a></nav>
+            <nav class="navigation1 <?php echo is_active('Sale_LatKar.php'); ?>"><a href="Sale_LatKar.php">လက်ကားအရာင်း</a></nav>
+            <nav class="navigation1 <?php echo is_active('sale.php'); ?>"><a href="sale.php">လက်လီအရောင်း</a></nav>
         </div>
         <div class="ProductList" id="categoryProductList">
             <nav class="navigation1 <?php echo is_active('Product_List_latkar.php'); ?>"><a href="Product_List_latkar.php">Latkar List</a></nav>

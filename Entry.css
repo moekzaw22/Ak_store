@@ -6,11 +6,11 @@
 	
 }
 .Entry-div input{
-	width:300px;
 	padding:10px;
+	width:200px;
 }
 div label{
-	width:150px;
+	width:180px;
 }
 .Button-div input{
 	background-color:royalblue;

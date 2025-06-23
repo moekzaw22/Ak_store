@@ -65,9 +65,11 @@ if (isset($_POST['btnsubmit'])) {
 <body>
    <div class="Navbar">
         <div class="Sale" id="categorySale">
-            <nav class="navigation1"><a href="Sale_LatKar.php">Sale Latkar</a></nav>
-            <nav class="navigation1 active"><a href="sale.php">Sale Latli</a></nav>
+            <nav class="navigation1"><a href="Sale_LatKar.php">Sale လက်ကား</a></nav>
+            <nav class="navigation1 active"><a href="sale.php">Sale လက်လီ</a></nav>
                <nav class="navigation1"><a href="Restock_casher.php">Restock</a></nav>
+                <nav class="navigation1"><a href="Product_Entry.php">Entry latli</a></nav>
+                 <nav class="navigation1"><a href="Product_Entry_latkar.php">Entry latkar</a></nav>
         </div>
         </div>
    </div>

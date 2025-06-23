@@ -117,7 +117,7 @@ echo $update = "UPDATE product
         </div>
         <div class="form-group">
             <p>Restock Quantity</p>
-            <input type="number" name="txtrestock"?>
+            <input type="number" name="txtrestock"? autofocus/>
         </div>
         <div class="form-group">
             <p>Link To Ctn</p>

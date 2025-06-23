@@ -11,10 +11,12 @@ if (isset($_POST['btnsubmit'])) {
 	$name = $_POST['txtname'];
 	$barcode = $_POST['numbarcode'];
 	$quantity = $_POST['numquantity'];
+	
 	$quantityctn = $_POST['numquantityCTN'];
+
 	$buyprice = $_POST['numbuyprice'];
 	$sellprice = $_POST['numsellprice'];
-	echo $query ="INSERT INTO product_latkar VALUES 
+	 $query ="INSERT INTO product_latkar VALUES 
 			('','$name','$barcode','$quantity','$quantityctn','$buyprice','$sellprice')";
 	$query_check = mysqli_query($connection,$query);
 	if ($query_check) {
@@ -33,8 +35,24 @@ if (isset($_POST['btnsubmit'])) {
  	<link rel="stylesheet" type="text/css" href="Entry.css">
  </head>
  <body>
+ 	<style>
+
+.Entry-div input{
+	padding:10px;
+	width:220px;
+}
+ 	</style>
  	
  	<form action="Product_Entry_Latkar.php" method="POST">
+ 		 <div class="Navbar">
+        <div class="Sale" id="categorySale">
+               <nav class="navigation1"><a href="Sale_LatKar.php">Sale လက်ကား</a></nav>
+            <nav class="navigation1"><a href="sale.php">Sale လက်လီ</a></nav>
+               <nav class="navigation1"><a href="Restock_casher.php">Restock</a></nav>
+                <nav class="navigation1"><a href="Product_Entry.php">Entry latli</a></nav>
+                 <nav class="navigation1 active"><a href="Product_Entry_latkar.php">Entry latkar</a></nav>
+        </div>
+        </div>
  <div style="margin-left:10px">	
  	<h1>လက်ကား အဝင်</h1>
  	<div class="Entry-div">

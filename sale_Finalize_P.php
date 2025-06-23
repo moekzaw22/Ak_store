@@ -1,33 +1,31 @@
 <?php
 include('Config.php');
-  
-if(isset($_GET['PID'])) 
-{
-    $PID=$_GET['PID'];
 
- $purchase_Query="UPDATE sale s,product pr
-             SET 
-             s.status='1'
-             WHERE
-             s.status='0' AND s.Product_ID=pr.Barcode";
+// 1. Select ALL pending sale rows (status = 0)
+$select_query = mysqli_query($connection, "
+    SELECT s.Product_ID, s.Buy_Quantity 
+    FROM sale s 
+    WHERE s.Status = '0'
+");
 
-    $purchase_ret=mysqli_query($connection,$purchase_Query);
-    if ($purchase_ret) {
+if ($select_query && mysqli_num_rows($select_query) > 0) {
+    // 2. Loop through each item and subtract quantity
+    while ($row = mysqli_fetch_assoc($select_query)) {
+        $product_id = $row['Product_ID'];
+        $buy_quantity = $row['Buy_Quantity'];
 
-                $select_product="SELECT * FROM product p, sale s WHERE p.Barcode=s.Product_ID AND s.Sale_ID= $PID";
-                $select_query=mysqli_query($connection,$select_product);
-                $product_array=mysqli_fetch_array($select_query);
-                $quantity=$product_array['Quantity'];
-                $product_id=$product_array['Product_ID'];
-                $buyquantity=$product_array['Buy_Quantity'];
-                $update="UPDATE product SET Quantity = Quantity - $buyquantity WHERE Product_ID='$product_id'";
-            
+        // Reduce stock from product table
+        $update = "UPDATE product SET Quantity = Quantity - $buy_quantity WHERE Product_ID = '$product_id'";
+        mysqli_query($connection, $update);
+    }
 
-            $update_query=mysqli_query($connection,$update);
-            echo "<script>window.location='Sale.php';</script>";
-    
-exit();
+    // 3. Mark all those sales as confirmed (status = 1)
+    mysqli_query($connection, "UPDATE sale SET Status = '1' WHERE Status = '0'");
+
+    // 4. Redirect back to Sale.php
+    echo "<script>window.location='Sale.php';</script>";
+    exit();
+} else {
+    echo "<script>alert('No pending sale found.'); window.location='Sale.php';</script>";
 }
-}
-
 ?>

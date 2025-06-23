@@ -33,6 +33,7 @@ if (isset($_POST['btnsubmit'])) {
     if ($result->num_rows > 0) {
         $array = $result->fetch_assoc();
         $barcode = $array['Barcode'];
+        $productid = $array['Product_ID'];
         $price = $array['Sell_Price'];
         $stock_quantity = $array['Quantity']; // Retrieve stock quantity
 
@@ -42,7 +43,7 @@ if (isset($_POST['btnsubmit'])) {
         } else {
             $stmt_insert = $connection->prepare("INSERT INTO Sale (Product_ID, Buy_Quantity, Total_Amount, Date, Time, Status) VALUES (?, ?, ?, ?, ?, '0')");
             $total_amount = $price * $quantity;
-            $stmt_insert->bind_param("iidss", $barcode, $quantity, $total_amount, $date, $time);
+            $stmt_insert->bind_param("iidss", $productid, $quantity, $total_amount, $date, $time);
             $stmt_insert->execute();
             $stmt_insert->close();
         }
@@ -65,9 +66,12 @@ if (isset($_POST['btnsubmit'])) {
 <body>
    <div class="Navbar">
         <div class="Sale" id="categorySale">
-            <nav class="navigation1 active"><a href="Sale_LatKar.php">Sale Latkar</a></nav>
-            <nav class="navigation1"><a href="sale.php">Sale Latli</a></nav>
+             <nav class="navigation1 active"><a href="Sale_LatKar.php">Sale လက်ကား</a></nav>
+            <nav class="navigation1"><a href="sale.php">Sale လက်လီ</a></nav>
                <nav class="navigation1"><a href="Restock_casher.php">Restock</a></nav>
+                <nav class="navigation1"><a href="Product_Entry.php">Entry latli</a></nav>
+                 <nav class="navigation1"><a href="Product_Entry_latkar.php">Entry latkar</a></nav>
+      
         </div>
         </div>
    </div>
@@ -87,12 +91,12 @@ if (isset($_POST['btnsubmit'])) {
 
     <div class="ongoing-sale">
         <?php    
-        $select = "SELECT s.*, p.Product_Name, p.Sell_Price FROM Sale s JOIN product_latkar p ON s.Product_ID = p.Barcode WHERE s.Status = '0'";
+        $select = "SELECT s.*, p.Product_Name, p.Sell_Price FROM Sale s JOIN product_latkar p ON s.Product_ID = p.Product_ID WHERE s.Status = '0'";
         $select_query = mysqli_query($connection, $select);
 
         if ($select_query) {
             $count = mysqli_num_rows($select_query);
-            $select_price = "SELECT SUM(s.Total_Amount) AS totalsum FROM Sale s, product_latkar p WHERE s.Product_ID =p.Barcode AND 
+            $select_price = "SELECT SUM(s.Total_Amount) AS totalsum FROM Sale s, product_latkar p WHERE s.Product_ID =p.Product_ID AND 
             s.Status = '0'";
             $result = mysqli_query($connection, $select_price);
             $row = mysqli_fetch_assoc($result);

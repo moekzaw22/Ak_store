@@ -11,6 +11,14 @@ if (isset($_POST['btnsubmit'])) {
 	$barcode = $_POST['numbarcode'];
 	$quantity = $_POST['numquantity'];
 	$linktoctn = $_POST['numquantityCTN'];
+	if (empty($linktoctn)) {
+		$linktoctn= '0';
+	}
+	else{
+		$linktoctn = $_POST['numquantityCTN'];
+
+	}
+	$linktoctn = $_POST['numquantityCTN'];
 	$buyprice = $_POST['numbuyprice'];
 	$sellprice = $_POST['numsellprice'];
 	echo $query ="INSERT INTO product VALUES 
@@ -34,6 +42,16 @@ if (isset($_POST['btnsubmit'])) {
  </head>
  <body>
  	<form action="Product_Entry.php" method="POST">
+ 		<div class="Navbar">
+        <div class="Sale" id="categorySale">
+              <nav class="navigation1"><a href="Sale_LatKar.php">Sale လက်ကား</a></nav>
+            <nav class="navigation1"><a href="sale.php">Sale လက်လီ</a></nav>
+               <nav class="navigation1"><a href="Restock_casher.php">Restock</a></nav>
+                <nav class="navigation1 active"><a href="Product_Entry.php">Entry latli</a></nav>
+                 <nav class="navigation1"><a href="Product_Entry_latkar.php">Entry latkar</a></nav>
+      
+        </div>
+        </div>
  <div style="margin-left: 10px;">
  	<h1>လက်လီ အဝင်</h1>
  	<div class="Entry-div">

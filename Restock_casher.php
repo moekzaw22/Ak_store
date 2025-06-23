@@ -1,8 +1,13 @@
 <?php
 include('Config.php');
- include('user_navbar.php');
- $restock_message = "";
 
+ $restock_message = "";
+if (empty($_SESSION['Username'])) {
+  include('user_navbar.php');
+}
+else{
+   include('Navbar.php');
+}
 // Handle Restocking
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['restock_barcode'])) {
     $barcode = $_POST['restock_barcode'];
@@ -28,9 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['restock_barcode'])) {
 }
 
 // Get products from both tables
-$query = "SELECT Barcode, Quantity, Product_Name, 'လက်ကား' AS Type FROM product_latkar
+$query = "SELECT Barcode, Quantity,Sell_Price, Product_Name, 'လက်ကား' AS Type FROM product_latkar
           UNION ALL
-          SELECT Barcode, Quantity, Product_Name, 'လက်လီ' AS Type FROM product";
+          SELECT Barcode, Quantity,Sell_Price, Product_Name, 'လက်လီ' AS Type FROM product";
 $result = mysqli_query($connection, $query);
 ?>
 <!DOCTYPE html>
@@ -48,9 +53,12 @@ $result = mysqli_query($connection, $query);
 <link rel="stylesheet" type="text/css" href="Sale.css">
  <div class="Navbar">
         <div class="Sale" id="categorySale">
-            <nav class="navigation1"><a href="Sale_LatKar.php">Sale Latkar</a></nav>
-            <nav class="navigation1"><a href="sale.php">Sale Latli</a></nav>
+              <nav class="navigation1"><a href="Sale_LatKar.php">Sale လက်ကား</a></nav>
+            <nav class="navigation1 "><a href="sale.php">Sale လက်လီ</a></nav>
              <nav class="navigation1 active"><a href="Restock_casher.php">Restock</a></nav>
+              <nav class="navigation1"><a href="Product_Entry.php">Entry latli</a></nav>
+                 <nav class="navigation1"><a href="Product_Entry_latkar.php">Entry latkar</a></nav>
+      
         </div>
    </div>
 <h2>Product Restock</h2><?php if (!empty($restock_message)) echo $restock_message; ?>
@@ -63,6 +71,7 @@ $result = mysqli_query($connection, $query);
             <th>Type</th>
             <th>Product Name</th>
             <th>Barcode</th>
+            <th>Price</th>
             <th>Quantity</th>
             <th>Restock</th>
             <th>Action</th>
@@ -75,6 +84,7 @@ $result = mysqli_query($connection, $query);
                     <td><?= htmlspecialchars($row['Type']) ?></td>
                     <td><?= htmlspecialchars($row['Product_Name']) ?></td>
                     <td><?= htmlspecialchars($row['Barcode']) ?></td>
+                    <td><?= htmlspecialchars($row['Sell_Price']) ?></td>
                     <td><?= htmlspecialchars($row['Quantity']) ?></td>
                     <td>
                         <input type="number" name="restock_quantity" min="1" required onkeydown="blockSymbols(event)">
